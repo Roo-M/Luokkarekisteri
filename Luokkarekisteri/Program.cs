@@ -14,7 +14,7 @@ namespace VScommunityharjoituksia24
         // Fields
         //-------
         string identity = "Uusi laite";
-        string dateBought = "1.1.2000";
+        string purchaseDate = "1.1.2000";
         double price = 0.00d;
         int warranty = 12;
 
@@ -25,10 +25,10 @@ namespace VScommunityharjoituksia24
             get { return identity; }
             set { identity = value; }
         }
-        public string DateBought
+        public string PurchaseDate
         {
-            get { return dateBought; }
-            set { dateBought = value; }
+            get { return purchaseDate; }
+            set { purchaseDate = value; }
         }
         public double Price
         {
@@ -54,10 +54,10 @@ namespace VScommunityharjoituksia24
             this.identity = identity;
         }
         // Another constructor with all arguments
-        public Device(string identity, string dateBought, double price, int warranty)
+        public Device(string identity, string purchaseDate, double price, int warranty)
         {
             this.identity = identity;
-            this.dateBought = dateBought;
+            this.purchaseDate = purchaseDate;
             this.price = price;
             this.warranty = warranty;
 
@@ -71,7 +71,7 @@ namespace VScommunityharjoituksia24
         // Fields
         //-------
         string identity;
-        string dateBought;
+        string purchaseDate;
         double price;
         int warranty;
 
