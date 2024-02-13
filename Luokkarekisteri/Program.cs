@@ -14,7 +14,7 @@ namespace VScommunityharjoituksia24
         // Fields
         //-------
         string identity = "Uusi laite";
-        string purchaseDate = "1.1.2000";
+        string purchaseDate = "1.1.1900";
         double price = 0.00d;
         int warranty = 12;
 
@@ -101,6 +101,12 @@ namespace VScommunityharjoituksia24
     {
         static void Main(string[] args)
         {
+            // Let's create new device from Device-class
+            Device device = new Device("Munkone");
+            Console.WriteLine("Laitteen nimi on: " + device.Identity);
+            Console.WriteLine();
+
+
             // Let's create a test object from the Device class with default constructor (0 parameters)
             Device device1 = new Device();
             Console.WriteLine(device1.Identity);
