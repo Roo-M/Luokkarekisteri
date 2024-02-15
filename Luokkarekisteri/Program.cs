@@ -8,7 +8,7 @@ using VScommunityharjoituksia24;
 namespace VScommunityharjoituksia24
 {
     // Base class for devices
-
+    //=======================
     class Device
     {
         // Fields
@@ -20,6 +20,7 @@ namespace VScommunityharjoituksia24
         string processorType = "N/A";
         int amountRAM = 0;
         int storageCapacity = 0;
+        string operatingSystem = "android";
 
         // Properties
         //-----------
@@ -63,6 +64,12 @@ namespace VScommunityharjoituksia24
             set { storageCapacity = value; }
         }
 
+        public string OperatingSystem
+        {
+            get { return operatingSystem; }
+            set { operatingSystem = value; }
+        }
+
 
         // Constructors
         //-------------
@@ -85,6 +92,9 @@ namespace VScommunityharjoituksia24
             this.warranty = warranty;
 
         }
+
+        // Other methods
+        //--------------
         // Yliluokan metodit
         public void ShowPurchaseInfo()
         { 
@@ -95,7 +105,7 @@ namespace VScommunityharjoituksia24
             Console.WriteLine("Takuu: " + this.warranty + " kk");
         }
 
-        // Read device basic technical info from attributes, notice: big first letter
+        // Read device basic technical info from properties, notice: big first letter
         public void ShowBasicTechnicalInfo()
         {
             Console.WriteLine("Koneen nimi: " + Name);
@@ -136,6 +146,7 @@ namespace VScommunityharjoituksia24
 
     class SmartPhone : Device
     {
+        // Fields
 
     }
 
@@ -143,52 +154,42 @@ namespace VScommunityharjoituksia24
     class Tablet : Device
     {
         // Fields
-        string operatingSystem;
+
         bool stylusEnabled = false;
 
         // Properties
-        public string OperatingSystem
-        {
-            get { return operatingSystem; }
-            set { operatingSystem = value; }
-        }
+
         public bool StylusEnabled
         {
             get { return stylusEnabled; }
             set { stylusEnabled = value; }
         }
 
-    }
+        // Constructors
+        // ------------
+        public Tablet() : base() { }
 
+        public Tablet(string name) : base(name) { }
+
+        // Tablet class special methods
+        // ----------------------------
+        public void TabletInfo()
+        {
+            Console.WriteLine("Käyttöjärjestelmä: " + OperatingSystem);
+            Console.WriteLine("Kynätuki: " + StylusEnabled);
+        }
+
+    }
+    // Main program class, that has Program.exe
+    // ========================================
     internal class Program
     {
         static void Main(string[] args)
         {
-            // Let's create new device from Device-class
-            //Device device = new Device("Munkone");
-            //Console.WriteLine("Laitteen nimi on: " + device.Identity);
-            //Console.WriteLine("Ostopäivä oli: " + device.PurchaseDate);
-
-
-            // Let's create a test object from the Device class with default constructor (0 parameters)
-            //Device device1 = new Device();
-            //Console.WriteLine(device1.Identity);
-
-            // Let's create another Device with identity parameter
-            //Device device2 = new Device("Toinen laite");
-            //Console.WriteLine(device2.Identity);
-
-            // Let's create one more device
-            //Device device3 = new Device("Kolmas kone", "8.2.2024", 150.00d, 36);
-
-            //Console.WriteLine(device3.Identity);
-            //Console.WriteLine(device3.Price);
-
-
             // Let's make new computer, that inherits device class properties and methods
             Computer tietokone1 = new Computer();
 
-            // Put processor-attribute value
+            // Put processor-attribute value for first computer
             tietokone1.ProcessorType = "Intel i7";
             tietokone1.AmountRAM = 16;
             tietokone1.PurchaseDate = "15.2.2024";
@@ -199,8 +200,6 @@ namespace VScommunityharjoituksia24
             Console.WriteLine("----------------------------");
             tietokone1.ShowPurchaseInfo();
 
-            //Console.WriteLine("Uuden tietokoneen nimi on: " + tietokone1.Identity + " ja siinä on " + tietokone1.ProcessorType + " -prosessori ja " + tietokone1.AmountRAM + " GB keskusmuistia");
-
             // Lets make new named computer with another constructor
             Computer tietokone2 = new Computer("Mikan läppäri");
             tietokone2.ProcessorType = "Intel Core i7 vPro";
@@ -209,6 +208,26 @@ namespace VScommunityharjoituksia24
             Console.WriteLine("Tietokone 2:n tekniset tiedot");
             Console.WriteLine("-----------------------------");
             tietokone2.ShowBasicTechnicalInfo();
+
+            // Lets make test object for tablet
+
+            Tablet tabletti1 = new Tablet("Mikan iPad");
+            tabletti1.PurchaseDate = "1.10.2022";
+            tabletti1.OperatingSystem = "iOS";
+            tabletti1.StylusEnabled = true;
+
+            // Show info with methods
+            Console.WriteLine("Tabletti 1:n hankintatiedot");
+            Console.WriteLine("----------------------------");
+            tabletti1.ShowPurchaseInfo();
+
+            Console.WriteLine("Tabletti 1:n tekniset tiedot");
+            Console.WriteLine("-----------------------------");
+            tabletti1.ShowBasicTechnicalInfo();
+
+            Console.WriteLine("Tabletti 1:n erityistiedot");
+            Console.WriteLine("----------------------------");
+            tabletti1.TabletInfo();
 
             // Leave window open until enter is pushed
             Console.ReadLine();
