@@ -68,18 +68,36 @@ namespace VScommunityharjoituksia24
     // Class for computers, inherits Device class
     class Computer : Device
     {
-        // Fields
-        //-------
-        string identity;
-        string purchaseDate;
-        double price;
-        int warranty;
+        // Fields and properties
+        //----------------------
+        //string identity;
+        //string purchaseDate;
+        //double price;
+        //int warranty;
 
-        // Properties
-        //-----------
+        string processorType;
+        public string ProcessorType
+        {
+            get { return processorType; }
+            set { processorType = value; }
+        }
+        int amountRAM;
+        public int AmountRAM
+        {
+            get { return amountRAM; }
+            set { amountRAM = value; }
+        }
+        int storageCapacity;
+        public int StorageCapacity
+        {
+            get { return storageCapacity; }
+            set { storageCapacity = value; }
+        }
 
         // Constructors
         //-------------
+        public Computer() : base()
+            { }
 
         // A constructor with one argument
 
@@ -104,7 +122,7 @@ namespace VScommunityharjoituksia24
             // Let's create new device from Device-class
             Device device = new Device("Munkone");
             Console.WriteLine("Laitteen nimi on: " + device.Identity);
-            Console.WriteLine();
+            Console.WriteLine("Ostopäivä oli: " + device.PurchaseDate);
 
 
             // Let's create a test object from the Device class with default constructor (0 parameters)
@@ -122,6 +140,12 @@ namespace VScommunityharjoituksia24
             Console.WriteLine(device3.Price);
 
 
+            // Let's make new computer, that inherits device class properties and methods
+
+            Computer tietokone1 = new Computer();
+            Console.WriteLine("Uuden tietokoneen nimi on: " + tietokone1.Identity);
+
+            // Leave window open until enter is pushed
             Console.ReadLine();
         }
     }
