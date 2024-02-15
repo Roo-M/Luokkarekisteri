@@ -13,7 +13,7 @@ namespace VScommunityharjoituksia24
     {
         // Fields
         //-------
-        string identity = "Uusi laite";
+        string name = "Uusi laite";
         string purchaseDate = "1.1.1900";
         double price = 0.00d;
         int warranty = 12;
@@ -23,10 +23,10 @@ namespace VScommunityharjoituksia24
 
         // Properties
         //-----------
-        public string Identity
+        public string Name
         {
-            get { return identity; }
-            set { identity = value; }
+            get { return name; }
+            set { name = value; }
         }
         public string PurchaseDate
         {
@@ -72,21 +72,38 @@ namespace VScommunityharjoituksia24
 
         }
         // A constructor with on argument
-        public Device(string identity)
+        public Device(string name)
         {
-            this.identity = identity;
+            this.name = name;
         }
         // Another constructor with all arguments
-        public Device(string identity, string purchaseDate, double price, int warranty)
+        public Device(string name, string purchaseDate, double price, int warranty)
         {
-            this.identity = identity;
+            this.name = name;
             this.purchaseDate = purchaseDate;
             this.price = price;
             this.warranty = warranty;
 
-            // Other methods
-
         }
+        // Yliluokan metodit
+        public void ShowPurchaseInfo()
+        { 
+            // Read devices purchase info from its fields, notice!: this
+            Console.WriteLine("Laitteen nimi: " +  this.name);
+            Console.WriteLine("Ostopäivä: " + this.purchaseDate);
+            Console.WriteLine("Hankinta hinta: " + this.price);
+            Console.WriteLine("Takuu: " + this.warranty + " kk");
+        }
+
+        // Read device basic technical info from attributes, notice: big first letter
+        public void ShowBasicTechnicalInfo()
+        {
+            Console.WriteLine("Koneen nimi: " + Name);
+            Console.WriteLine("Prosessori: " + ProcessorType);
+            Console.WriteLine("Keskusmuisti: " + AmountRAM);
+            Console.WriteLine("Levytila: " + StorageCapacity);
+        }
+
     }
 
     // Class for computers, inherits Device class
@@ -105,7 +122,7 @@ namespace VScommunityharjoituksia24
         public Computer() : base()
             { }
 
-        public Computer(string identity) : base(identity)
+        public Computer(string name) : base(name)
             { }
 
         // A constructor with one argument
@@ -114,13 +131,7 @@ namespace VScommunityharjoituksia24
 
         // Other methods
         //--------------
-        public void ShowInfo()
-        {
-            Console.WriteLine("Koneen nimi: " + Identity);
-            Console.WriteLine("Prosessori: " +  ProcessorType);
-            Console.WriteLine("Keskusmuisti: " +  AmountRAM);
-            Console.WriteLine("Levytila: " +  StorageCapacity);
-        }
+        
     }
 
     class SmartPhone : Device
@@ -154,9 +165,9 @@ namespace VScommunityharjoituksia24
         static void Main(string[] args)
         {
             // Let's create new device from Device-class
-            Device device = new Device("Munkone");
-            Console.WriteLine("Laitteen nimi on: " + device.Identity);
-            Console.WriteLine("Ostopäivä oli: " + device.PurchaseDate);
+            //Device device = new Device("Munkone");
+            //Console.WriteLine("Laitteen nimi on: " + device.Identity);
+            //Console.WriteLine("Ostopäivä oli: " + device.PurchaseDate);
 
 
             // Let's create a test object from the Device class with default constructor (0 parameters)
@@ -180,14 +191,24 @@ namespace VScommunityharjoituksia24
             // Put processor-attribute value
             tietokone1.ProcessorType = "Intel i7";
             tietokone1.AmountRAM = 16;
+            tietokone1.PurchaseDate = "15.2.2024";
+            tietokone1.Price = 850.00d;
+            tietokone1.Warranty = 36;
 
-            Console.WriteLine("Uuden tietokoneen nimi on: " + tietokone1.Identity + " ja siinä on " + tietokone1.ProcessorType + " -prosessori ja " + tietokone1.AmountRAM + " GB keskusmuistia");
+            Console.WriteLine("Tietokone 1:n hankintatiedot");
+            Console.WriteLine("----------------------------");
+            tietokone1.ShowPurchaseInfo();
+
+            //Console.WriteLine("Uuden tietokoneen nimi on: " + tietokone1.Identity + " ja siinä on " + tietokone1.ProcessorType + " -prosessori ja " + tietokone1.AmountRAM + " GB keskusmuistia");
 
             // Lets make new named computer with another constructor
             Computer tietokone2 = new Computer("Mikan läppäri");
             tietokone2.ProcessorType = "Intel Core i7 vPro";
             tietokone2.AmountRAM = 32;
-            tietokone2.ShowInfo();
+
+            Console.WriteLine("Tietokone 2:n tekniset tiedot");
+            Console.WriteLine("-----------------------------");
+            tietokone2.ShowBasicTechnicalInfo();
 
             // Leave window open until enter is pushed
             Console.ReadLine();
