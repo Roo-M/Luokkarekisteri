@@ -17,6 +17,9 @@ namespace VScommunityharjoituksia24
         string purchaseDate = "1.1.1900";
         double price = 0.00d;
         int warranty = 12;
+        string processorType = "N/A";
+        int amountRAM = 0;
+        int storageCapacity = 0;
 
         // Properties
         //-----------
@@ -40,6 +43,26 @@ namespace VScommunityharjoituksia24
             get { return warranty; }
             set { warranty = value; }
         }
+
+        
+        public string ProcessorType
+        {
+            get { return processorType; }
+            set { processorType = value; }
+        }
+        
+        public int AmountRAM
+        {
+            get { return amountRAM; }
+            set { amountRAM = value; }
+        }
+        
+        public int StorageCapacity
+        {
+            get { return storageCapacity; }
+            set { storageCapacity = value; }
+        }
+
 
         // Constructors
         //-------------
@@ -65,6 +88,7 @@ namespace VScommunityharjoituksia24
 
         }
     }
+
     // Class for computers, inherits Device class
     class Computer : Device
     {
@@ -75,28 +99,13 @@ namespace VScommunityharjoituksia24
         //double price;
         //int warranty;
 
-        string processorType;
-        public string ProcessorType
-        {
-            get { return processorType; }
-            set { processorType = value; }
-        }
-        int amountRAM;
-        public int AmountRAM
-        {
-            get { return amountRAM; }
-            set { amountRAM = value; }
-        }
-        int storageCapacity;
-        public int StorageCapacity
-        {
-            get { return storageCapacity; }
-            set { storageCapacity = value; }
-        }
-
+        
         // Constructors
         //-------------
         public Computer() : base()
+            { }
+
+        public Computer(string identity) : base(identity)
             { }
 
         // A constructor with one argument
@@ -105,13 +114,38 @@ namespace VScommunityharjoituksia24
 
         // Other methods
         //--------------
+        public void ShowInfo()
+        {
+            Console.WriteLine("Koneen nimi: " + Identity);
+            Console.WriteLine("Prosessori: " +  ProcessorType);
+            Console.WriteLine("Keskusmuisti: " +  AmountRAM);
+            Console.WriteLine("Levytila: " +  StorageCapacity);
+        }
     }
+
     class SmartPhone : Device
     {
 
     }
+
+    // Tablet class inherits device class
     class Tablet : Device
     {
+        // Fields
+        string operatingSystem;
+        bool stylusEnabled = false;
+
+        // Properties
+        public string OperatingSystem
+        {
+            get { return operatingSystem; }
+            set { operatingSystem = value; }
+        }
+        public bool StylusEnabled
+        {
+            get { return stylusEnabled; }
+            set { stylusEnabled = value; }
+        }
 
     }
 
@@ -126,24 +160,34 @@ namespace VScommunityharjoituksia24
 
 
             // Let's create a test object from the Device class with default constructor (0 parameters)
-            Device device1 = new Device();
-            Console.WriteLine(device1.Identity);
+            //Device device1 = new Device();
+            //Console.WriteLine(device1.Identity);
 
             // Let's create another Device with identity parameter
-            Device device2 = new Device("Toinen laite");
-            Console.WriteLine(device2.Identity);
+            //Device device2 = new Device("Toinen laite");
+            //Console.WriteLine(device2.Identity);
 
             // Let's create one more device
-            Device device3 = new Device("Kolmas kone", "8.2.2024", 150.00d, 36);
+            //Device device3 = new Device("Kolmas kone", "8.2.2024", 150.00d, 36);
 
-            Console.WriteLine(device3.Identity);
-            Console.WriteLine(device3.Price);
+            //Console.WriteLine(device3.Identity);
+            //Console.WriteLine(device3.Price);
 
 
             // Let's make new computer, that inherits device class properties and methods
-
             Computer tietokone1 = new Computer();
-            Console.WriteLine("Uuden tietokoneen nimi on: " + tietokone1.Identity);
+
+            // Put processor-attribute value
+            tietokone1.ProcessorType = "Intel i7";
+            tietokone1.AmountRAM = 16;
+
+            Console.WriteLine("Uuden tietokoneen nimi on: " + tietokone1.Identity + " ja siinä on " + tietokone1.ProcessorType + " -prosessori ja " + tietokone1.AmountRAM + " GB keskusmuistia");
+
+            // Lets make new named computer with another constructor
+            Computer tietokone2 = new Computer("Mikan läppäri");
+            tietokone2.ProcessorType = "Intel Core i7 vPro";
+            tietokone2.AmountRAM = 32;
+            tietokone2.ShowInfo();
 
             // Leave window open until enter is pushed
             Console.ReadLine();
