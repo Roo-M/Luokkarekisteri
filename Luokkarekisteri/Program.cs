@@ -204,22 +204,68 @@ namespace VScommunityharjoituksia24
 
                         // Kysytään käyttäjän tietokoneen tiedot
                         // ja luodaan uusi tietokoneolio
-                        // ! Laita Write jotta syötetty teksti tulee kysymyksen perään, writeLine tekee sen kysymyksen alle
+                        // ! Laita Write jotta syötetty teksti tulee kysymyksen perään, WriteLine tekee sen kysymyksen alle !
                         Console.Write("Nimi: ");
                         string computerName = Console.ReadLine();
                         Computer computer = new Computer(computerName);
                         Console.Write("Ostopäivä: ");
                         computer.PurchaseDate = Console.ReadLine();
                         Console.Write("Hankintahinta: ");
-                        computer.Price = double.Parse(Console.ReadLine());
+                        string price = Console.ReadLine();
+
+                        try
+                        {
+                            computer.Price = double.Parse(price);
+                        }
+                        catch (Exception ex)
+                        {
+
+                            Console.WriteLine("Virheellinen hintatieto, käytä desimalipilkkua (,) " + ex.Message);
+
+                            break;
+                        }
+
                         Console.Write("Takuun kesto kuukaisina: ");
-                        computer.Warranty = int.Parse(Console.ReadLine());
+                        string warranty = Console.ReadLine();
+
+                        try
+                        {
+                            computer.Warranty = int.Parse(warranty);
+                        }
+                        catch (Exception ex)
+                        {
+
+                            Console.WriteLine("Virheellinen takuutieto, vain kuukausien määrä kokonaislukuina " + ex.Message);
+                        }
+
                         Console.Write("Prosessorin tyyppi: ");
                         computer.ProcessorType = Console.ReadLine();
                         Console.Write("Keskusmuistin määrä: ");
-                        computer.AmountRAM = int.Parse(Console.ReadLine());
+                        string amountRAM = Console.ReadLine();
+
+                        try
+                        {
+                            computer.AmountRAM = int.Parse(amountRAM);
+                        }
+                        catch (Exception ex)
+                        {
+
+                            Console.WriteLine("Virheellinen muistin määrä, vain kokonaisluvut sallittu " + ex.Message);
+                        }
+
                         Console.Write("Tallennuskapasiteetti (GB): ");
-                        computer.StorageCapacity = int.Parse(Console.ReadLine());
+                        string storageCapacity = Console.ReadLine();
+
+                        try
+                        {
+                            computer.StorageCapacity = int.Parse(storageCapacity);
+                        }
+                        catch (Exception ex)
+                        {
+
+                            Console.WriteLine("Virheellinen tallennustilan koko, vain kokonaisluvut sallittu")
+                        }
+
                         Console.Write("Käyttöjärjestelmä: ");
                         computer.OperatingSystem = Console.ReadLine();
 
