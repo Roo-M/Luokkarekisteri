@@ -201,15 +201,38 @@ namespace VScommunityharjoituksia24
                 switch (type)
                 {
                     case "1":   // computer
-                        Console.WriteLine("Nimi: ");
+
+                        // Kysytään käyttäjän tietokoneen tiedot
+                        // ja luodaan uusi tietokoneolio
+                        // ! Laita Write jotta syötetty teksti tulee kysymyksen perään, writeLine tekee sen kysymyksen alle
+                        Console.Write("Nimi: ");
                         string computerName = Console.ReadLine();
-                        Computer computer = new Computer();
+                        Computer computer = new Computer(computerName);
+                        Console.Write("Ostopäivä: ");
+                        computer.PurchaseDate = Console.ReadLine();
+                        Console.Write("Hankintahinta: ");
+                        computer.Price = double.Parse(Console.ReadLine());
+                        Console.Write("Takuun kesto kuukaisina: ");
+                        computer.Warranty = int.Parse(Console.ReadLine());
+                        Console.Write("Prosessorin tyyppi: ");
+                        computer.ProcessorType = Console.ReadLine();
+                        Console.Write("Keskusmuistin määrä: ");
+                        computer.AmountRAM = int.Parse(Console.ReadLine());
+                        Console.Write("Tallennuskapasiteetti (GB): ");
+                        computer.StorageCapacity = int.Parse(Console.ReadLine());
+                        Console.Write("Käyttöjärjestelmä: ");
+                        computer.OperatingSystem = Console.ReadLine();
+
+                        // Näytetään olion tiedot metodien avulla
+                        computer.ShowPurchaseInfo();
+                        computer.ShowBasicTechnicalInfo();
+
                         break;
 
                     case "2":   // tablet
-                        Console.WriteLine("Nimi: ");
+                        Console.Write("Nimi: ");
                         string tabletName = Console.ReadLine();
-                        Tablet tablet = new Tablet();
+                        Tablet tablet = new Tablet(tabletName);
                         break;
 
                     default:
