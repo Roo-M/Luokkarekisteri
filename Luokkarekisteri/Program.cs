@@ -184,50 +184,50 @@ namespace VScommunityharjoituksia24
     // ========================================
     internal class Program
     {
+
+        // Ohjelman käynnistävä metodi
+        // ---------------------------
         static void Main(string[] args)
         {
-            // Let's make new computer, that inherits device class properties and methods
-            Computer tietokone1 = new Computer();
+            // Ikuinen silmukka pääohjelman käynnissä pitämiseen
+            while (true)
+            {
+                Console.WriteLine("Minkä laitteen tiedot tallennetaan?");
+                Console.WriteLine("1 tietokone, 2 tabletti ");
+                string type = Console.ReadLine();
 
-            // Put processor-attribute value for first computer
-            tietokone1.ProcessorType = "Intel i7";
-            tietokone1.AmountRAM = 16;
-            tietokone1.PurchaseDate = "15.2.2024";
-            tietokone1.Price = 850.00d;
-            tietokone1.Warranty = 36;
+                // Luodaan Switch-Case-rakenne vaihtoehdoille
 
-            Console.WriteLine("Tietokone 1:n hankintatiedot");
-            Console.WriteLine("----------------------------");
-            tietokone1.ShowPurchaseInfo();
+                switch (type)
+                {
+                    case "1":   // computer
+                        Console.WriteLine("Nimi: ");
+                        string computerName = Console.ReadLine();
+                        Computer computer = new Computer();
+                        break;
 
-            // Lets make new named computer with another constructor
-            Computer tietokone2 = new Computer("Mikan läppäri");
-            tietokone2.ProcessorType = "Intel Core i7 vPro";
-            tietokone2.AmountRAM = 32;
+                    case "2":   // tablet
+                        Console.WriteLine("Nimi: ");
+                        string tabletName = Console.ReadLine();
+                        Tablet tablet = new Tablet();
+                        break;
 
-            Console.WriteLine("Tietokone 2:n tekniset tiedot");
-            Console.WriteLine("-----------------------------");
-            tietokone2.ShowBasicTechnicalInfo();
+                    default:
+                        Console.WriteLine("Virheellinen valinta, anna pelkkä numero");
+                        break;
+                }
 
-            // Lets make test object for tablet
+                // Ohjelman sulkeminen: poistutaan ikuisesta silmukasta
+                Console.WriteLine("Haluatko jatkaa K/E");
+                string continueAnswer = Console.ReadLine();
+                continueAnswer = continueAnswer.Trim();
+                continueAnswer = continueAnswer.ToLower();
+                if (continueAnswer == "e")
+                {
+                    break;
+                }
+            }
 
-            Tablet tabletti1 = new Tablet("Mikan iPad");
-            tabletti1.PurchaseDate = "1.10.2022";
-            tabletti1.OperatingSystem = "iOS";
-            tabletti1.StylusEnabled = true;
-
-            // Show info with methods
-            Console.WriteLine("Tabletti 1:n hankintatiedot");
-            Console.WriteLine("----------------------------");
-            tabletti1.ShowPurchaseInfo();
-
-            Console.WriteLine("Tabletti 1:n tekniset tiedot");
-            Console.WriteLine("-----------------------------");
-            tabletti1.ShowBasicTechnicalInfo();
-
-            Console.WriteLine("Tabletti 1:n erityistiedot");
-            Console.WriteLine("----------------------------");
-            tabletti1.TabletInfo();
 
             // Leave window open until enter is pushed
             Console.ReadLine();
