@@ -5,10 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 using VScommunityharjoituksia24;
 
+// Tiedostonkäsittelyyn ja serialisointiin tarvittavat kirjastot
+using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+
 namespace VScommunityharjoituksia24
 {
     // Base class for devices
     //=======================
+    [Serializable]
     class Device
     {
         // Fields
@@ -97,8 +103,11 @@ namespace VScommunityharjoituksia24
         //--------------
         // Yliluokan metodit
         public void ShowPurchaseInfo()
-        { 
+        {
             // Read devices purchase info from its fields, notice!: this
+            Console.WriteLine();
+            Console.WriteLine("Laitteen hankintatiedot");
+            Console.WriteLine("-----------------------");
             Console.WriteLine("Laitteen nimi: " +  this.name);
             Console.WriteLine("Ostopäivä: " + this.purchaseDate);
             Console.WriteLine("Hankinta hinta: " + this.price);
@@ -108,15 +117,37 @@ namespace VScommunityharjoituksia24
         // Read device basic technical info from properties, notice: big first letter
         public void ShowBasicTechnicalInfo()
         {
+            Console.WriteLine();
+            Console.WriteLine("Laitteen tekniset tiedot");
+            Console.WriteLine("------------------------");
             Console.WriteLine("Koneen nimi: " + Name);
             Console.WriteLine("Prosessori: " + ProcessorType);
             Console.WriteLine("Keskusmuisti: " + AmountRAM);
             Console.WriteLine("Levytila: " + StorageCapacity);
         }
 
+        // Lasketaan takuun päättymispäivä, huomaa ISO-standardin mukaiset päivämäärät: vuosi-kuukausi-päivä
+        public void CalculateWarrantyEndingDate()
+        {
+            // Muutetaan päivämäärä merkkijono päivämäärä-kellonaika-muotoon
+            DateTime startDate = DateTime.ParseExact(this.PurchaseDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+            // Lisätään takuun kesto
+            DateTime endDate = startDate.AddMonths(this.Warranty);
+
+            // Muunnetaan päivämäärä ISO-standardin mukaiseen muotoon
+            endDate = endDate.Date;
+
+            string isoDate = endDate.ToString("yyyy-MM-dd");
+
+            Console.WriteLine("Takuu päättyy: " + isoDate);
+        }
+
     }
 
     // Class for computers, inherits Device class
+
+    [Serializable]
     class Computer : Device
     {
         // Fields and properties
@@ -175,6 +206,9 @@ namespace VScommunityharjoituksia24
         // ----------------------------
         public void TabletInfo()
         {
+            Console.WriteLine();
+            Console.WriteLine("Tabletin erityitiedot");
+            Console.WriteLine("---------------------");
             Console.WriteLine("Käyttöjärjestelmä: " + OperatingSystem);
             Console.WriteLine("Kynätuki: " + StylusEnabled);
         }
@@ -189,6 +223,25 @@ namespace VScommunityharjoituksia24
         // ---------------------------
         static void Main(string[] args)
         {
+            // Määritellään binääridatan muodostaja serialisointia varten
+            IFormatter formatter = new BinaryFormatter();
+
+            // Määritellään file stream tietokoneiden tietojen tallennusta vektorimuotoa varten -> huono ratkaisu
+            Stream writeStream = new FileStream("ComputerData.dat", FileMode.Create, FileAccess.Write);
+
+            // Määritelläänn toinen file streampinotallennusta varten
+            Stream stackWriteStream = new FileStream("ComputerStack.dat", FileMode.Create, FileAccess.Write);
+
+
+            // Luodaan vektorit ja laskurit niiden alkioille
+            Computer[] computers = new Computer[10];
+            Tablet[] tablets = new Tablet[10];
+            int numberOfComputers = 0;
+            int numberOfTablets = 0;
+
+            // Vaihtoehtoisesti luodaan pinot laitteille
+            Stack<Computer> computerStack = new Stack<Computer>();
+
             // Ikuinen silmukka pääohjelman käynnissä pitämiseen
             while (true)
             {
@@ -208,7 +261,7 @@ namespace VScommunityharjoituksia24
                         Console.Write("Nimi: ");
                         string computerName = Console.ReadLine();
                         Computer computer = new Computer(computerName);
-                        Console.Write("Ostopäivä: ");
+                        Console.Write("Ostopäivä muodossa vvvv-kk-pp: ");
                         computer.PurchaseDate = Console.ReadLine();
                         Console.Write("Hankintahinta: ");
                         string price = Console.ReadLine();
@@ -236,6 +289,7 @@ namespace VScommunityharjoituksia24
                         {
 
                             Console.WriteLine("Virheellinen takuutieto, vain kuukausien määrä kokonaislukuina " + ex.Message);
+                            break;
                         }
 
                         Console.Write("Prosessorin tyyppi: ");
@@ -251,6 +305,7 @@ namespace VScommunityharjoituksia24
                         {
 
                             Console.WriteLine("Virheellinen muistin määrä, vain kokonaisluvut sallittu " + ex.Message);
+                            break;
                         }
 
                         Console.Write("Tallennuskapasiteetti (GB): ");
@@ -263,7 +318,8 @@ namespace VScommunityharjoituksia24
                         catch (Exception ex)
                         {
 
-                            Console.WriteLine("Virheellinen tallennustilan koko, vain kokonaisluvut sallittu")
+                            Console.WriteLine("Virheellinen tallennustilan koko, vain kokonaisluvut sallittu " + ex.Message);
+                            break;
                         }
 
                         Console.Write("Käyttöjärjestelmä: ");
@@ -272,6 +328,25 @@ namespace VScommunityharjoituksia24
                         // Näytetään olion tiedot metodien avulla
                         computer.ShowPurchaseInfo();
                         computer.ShowBasicTechnicalInfo();
+
+                        try
+                        {
+                            computer.CalculateWarrantyEndingDate();
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Ostopäivä virheellinen " + ex.Message);
+                            break;
+                        }
+
+                        // Lisätään tietokone vektoriin
+                        computers[numberOfComputers] = computer;
+                        Console.WriteLine("Vektorin indeksi on nyt " + numberOfComputers);
+                        numberOfComputers++;
+                        Console.WriteLine("Nyt syötettiin " + numberOfComputers + ". kone");
+
+                        // Vaihtoehtoisesti lisätään tietokone pinoon
+                        computerStack.Push(computer);
 
                         break;
 
@@ -293,6 +368,51 @@ namespace VScommunityharjoituksia24
                 continueAnswer = continueAnswer.ToLower();
                 if (continueAnswer == "e")
                 {
+                    // Vektorissa on se määrä alkioita, jotka sille on alustuvaiheessa annettu
+                    Console.WriteLine("Tietokonevektorissa on " + computers.Length + " alkiota");
+
+                    Console.WriteLine("Pinossa on nyt " + computerStack.Count + " tietokonetta");
+
+                    // Tallennetaan koneiden tiedot vektorina tiedostoon serialisoimalla
+                    formatter.Serialize(writeStream, computers);
+                    writeStream.Close();
+
+                    // Tallennetaan koneiden tiedot pinomuodossa tiedostoon
+                    formatter.Serialize(stackWriteStream, computerStack);
+                    stackWriteStream.Close();
+
+                 
+
+                    // Määritellään file stream tietokoneiden tietojen lukemista varten
+                   Stream readStream = new FileStream("ComputerData.dat", FileMode.Open, FileAccess.Read);
+
+                    Computer[] savedComputers;
+
+                    savedComputers = (Computer[]formatter.Deserialize(readStream);
+
+                    readStream.Close();
+
+                    Stream readStackStream = new FileStream("ComputerStack.dat", FileMode.Open, FileAccess.Read);
+
+                    Stack<Computer> savedStack;
+                    savedStack = (Stack<Computer>)formatter.Deserialize(readStackStream);
+                    readStackStream.Close();
+
+                    // Tulostetaan ruudulle tallennetun ensimmäisen koneen nimi
+                    Console.WriteLine("Levylle on tallennettu " + savedComputers.Length + "koneen tiedot");
+                    Console.WriteLine(savedComputers[0].Name);
+                    savedComputers[0].CalculateWarrantyEndingDate();
+
+                    // Jos luetaan indeksi, jossa koneen tiedot puuttuvat (null) sovellus kaatuu -> vektorin käyttö ei ole järkevää
+
+                    // Pinoon tallennetaan vain todellisuudessa syötetyt koneet, voidaan lukea koko pino silmukassa
+
+                    foreach (var item in savedStack)
+                    {
+                        Console.WriteLine("Koneen " + item.Name + " takuu päättyy");
+                        item.CalculateWarrantyEndingDate();
+                    }
+
                     break;
                 }
             }
